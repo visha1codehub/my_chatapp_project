@@ -4,16 +4,15 @@
 
 <div class="container w-50">
     <h1>Room Name: {{roomName}}</h1>
-    <ul class="list-group" id="chat-list">
+    <ul class="list-group" id="chat-list" style='overflow:scroll;overflow-x:hidden;max-height:400px;'>
         {% for msg in messages %}
-        <li class="list-group-item">{{msg.owner.username}} : {{msg.body}}</li>
+        <li class="list-group-item" style="background-color: rgb(255, 210, 127);" >{{msg.owner.username}} : {{msg.body}}</li>
         {% endfor %}
     </ul>
-
-    <br><br><br><br>
-    <div class="input-group mb-3  fixed-bottom">
-        <input type="text" class="form-control" id="chat-input" required placeholder="Enter message here..." aria-describedby="button-addon2">
-        <input class="btn btn-outline-secondary" type="submit" id="chat-button"></input>
+<br>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" id="chat-input" required placeholder="Enter message here..." aria-describedby="button-addon2" style="background-color: rgb(255, 210, 127);">
+        <input class="btn btn-outline-secondary" type="submit" id="chat-button" style="background-color: rgb(13, 58, 33);"></input>
     </div>
 </div>
 {{roomName | json_script:"room-name"}}
@@ -54,7 +53,7 @@
             messageInputDom.value = ""
         }
       } 
-      $(
+      $(document).ready(function(){
         $("#chat-input").keypress(function(e){
             // console.log(typeof e.keyCode)
             if (e.keyCode === 13){
@@ -67,8 +66,10 @@
                 }
                 $("#chat-input").val("")
             }
-        })
-      )
+        });
+        // $('#chat-list').scrollTop($('#chat-list')[0].scrollHeight);
+         $("#chat-list").animate({ scrollTop: $("#chat-list").prop("scrollHeight")}, 1000);
+    })
 
  </script>
 
