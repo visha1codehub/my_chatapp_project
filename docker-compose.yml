@@ -1,0 +1,11 @@
+services:
+  web:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8000
+  cache:
+    image: redis:alpine3.19
+    ports:
+      - 6379:6379
+    

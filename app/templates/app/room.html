@@ -17,7 +17,7 @@
     </div>
 </div>
 {{roomName | json_script:"room-name"}}
-
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
  <script>
     room_name = JSON.parse(document.getElementById('room-name').textContent)
     const ws = new WebSocket(`ws://${window.location.host}/ws/${room_name}/`)
@@ -29,10 +29,10 @@
         data = JSON.parse(event['data'])
         msg = data['msg']
         user = data['user']
-        console.log(`Recieved from the ${user}...`);
+        // console.log(`Recieved from the ${user}...`);
         console.log(msg)
         ul = document.getElementById('chat-list')
-        console.log(ul)
+        // console.log(ul)
         let li = document.createElement('li')
         li.setAttribute('class', 'list-group-item')
         li.innerHTML = `${user} : ${msg}` 
@@ -53,7 +53,22 @@
             }))
             messageInputDom.value = ""
         }
-      }
+      } 
+      $(
+        $("#chat-input").keypress(function(e){
+            // console.log(typeof e.keyCode)
+            if (e.keyCode === 13){
+                e.preventDefault()
+                let mj = $("#chat-input").val().trim()
+                if (mj){
+                    ws.send(JSON.stringify({
+                        'msg' : mj
+                    }))
+                }
+                $("#chat-input").val("")
+            }
+        })
+      )
 
  </script>
 
